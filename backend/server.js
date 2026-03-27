@@ -4,10 +4,14 @@ const mongoose = require("mongoose");
 const app = express();
 app.use(express.json());
 
-// 🔗 Connect MongoDB
+// 🔗 MongoDB Connection
 mongoose.connect("mongodb://127.0.0.1:27017/blogDB")
 .then(() => console.log("MongoDB Connected ✅"))
 .catch((err) => console.log(err));
+
+// ✅ Import Routes
+const blogRoutes = require("./routes/blogRoutes");
+app.use("/api/blogs", blogRoutes);
 
 app.get("/", (req, res) => {
   res.send("Server is running 🚀");
