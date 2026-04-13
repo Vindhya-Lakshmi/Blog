@@ -1,19 +1,22 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 const app = express();
+
+// ✅ Only this is enough
+app.use(cors());
 app.use(express.json());
 
-// 🔗 MongoDB Connection
+// MongoDB
 mongoose.connect("mongodb://127.0.0.1:27017/blogDB")
 .then(() => console.log("MongoDB Connected ✅"))
 .catch((err) => console.log(err));
 
-// ✅ Import Blog Routes
+// Routes
 const blogRoutes = require("./routes/blogRoutes");
 app.use("/api/blogs", blogRoutes);
 
-// ✅ 👉 ADD THESE TWO LINES HERE
 const authRoutes = require("./routes/authRoutes");
 app.use("/api/auth", authRoutes);
 

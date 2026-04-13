@@ -1,13 +1,13 @@
 
 const express = require("express");
 const router = express.Router();
-const Blog = require("../models/Blog");
+const Blogs = require("../models/Blogs");
 const auth = require("../middleware/authMiddleware");
 
 // ✅ Create Blog (attach user)
 router.post("/", auth, async (req, res) => {
   try {
-    const blog = new Blog({
+    const blog = new Blogs({
       ...req.body,
       user: req.user.id   // 🔥 attach logged-in user
     });
@@ -21,19 +21,19 @@ router.post("/", auth, async (req, res) => {
 
 // ✅ Get All Blogs
 router.get("/", async (req, res) => {
-  const blogs = await Blog.find();
+  const blogs = await Blogs.find();
   res.json(blogs);
 });
 
 // ✅ Get Single Blog
 router.get("/:id", async (req, res) => {
-  const blog = await Blog.findById(req.params.id);
+  const blog = await Blogs.findById(req.params.id);
   res.json(blog);
 });
 
 // ✅ Update Blog (only owner)
 router.put("/:id", auth, async (req, res) => {
-  const blog = await Blog.findById(req.params.id);
+  const blog = await Blogs.findById(req.params.id);
 
   if (!blog) {
     return res.status(404).json({ message: "Blog not found" });
@@ -44,7 +44,7 @@ router.put("/:id", auth, async (req, res) => {
     return res.status(403).json({ message: "Not allowed" });
   }
 
-  const updated = await Blog.findByIdAndUpdate(
+  const updated = await Blogs.findByIdAndUpdate(
     req.params.id,
     req.body,
     { new: true }
@@ -55,7 +55,7 @@ router.put("/:id", auth, async (req, res) => {
 
 // ✅ Delete Blog (only owner)
 router.delete("/:id", auth, async (req, res) => {
-  const blog = await Blog.findById(req.params.id);
+  const blog = await Blogs.findById(req.params.id);
 
   if (!blog) {
     return res.status(404).json({ message: "Blog not found" });
@@ -66,7 +66,7 @@ router.delete("/:id", auth, async (req, res) => {
     return res.status(403).json({ message: "Not allowed" });
   }
 
-  await Blog.findByIdAndDelete(req.params.id);
+  await Blogs.findByIdAndDelete(req.params.id);
   res.json({ message: "Blog deleted" });
 });
 
