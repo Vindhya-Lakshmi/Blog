@@ -3,11 +3,13 @@ const mongoose = require("mongoose");
 const blogSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   content: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   author: {
     type: String,
@@ -18,9 +20,9 @@ const blogSchema = new mongoose.Schema({
     default: Date.now
   },
   user: {
-  type: mongoose.Schema.Types.ObjectId,
-  ref: "User"
-}
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  }
 });
 
 module.exports = mongoose.model("Blog", blogSchema);

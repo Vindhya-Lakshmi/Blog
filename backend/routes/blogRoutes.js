@@ -7,14 +7,29 @@ const auth = require("../middleware/authMiddleware");
 // ✅ Create Blog (attach user)
 router.post("/", auth, async (req, res) => {
   try {
+    console.log("BODY:", req.body); // 🔍 debug
+
+    const { title, content } = req.body;
+
+    // ✅ Validation
+    if (!title || !content) {
+      return res.status(400).json({
+        error: "Title and content are required"
+      });
+    }
+
     const blog = new Blogs({
-      ...req.body,
-      user: req.user.id   // 🔥 attach logged-in user
+      title,
+      content,
+      user: req.user.id
     });
 
     await blog.save();
+
     res.status(201).json(blog);
+
   } catch (err) {
+    console.log("ERROR:", err.message);
     res.status(400).json({ error: err.message });
   }
 });

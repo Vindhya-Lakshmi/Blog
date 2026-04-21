@@ -2,11 +2,10 @@ import { useState } from "react";
 import API from "../services/api";
 
 function Login() {
-  const [username, setUsername] = useState(""); // 👈 NEW
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // ✅ Register
   const handleRegister = async () => {
     try {
       const res = await API.post("/auth/register", {
@@ -21,7 +20,6 @@ function Login() {
     }
   };
 
-  // ✅ Login
   const handleLogin = async () => {
     try {
       const res = await API.post("/auth/login", { email, password });
