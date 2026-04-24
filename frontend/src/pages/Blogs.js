@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import API from "../services/api";
+import "../style/blog.css";
 
 function Blogs() {
-  const [blogs, setBlogs] = useState();
+  const [blogs, setBlogs] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [editingId, setEditingId] = useState(null);
@@ -13,13 +14,18 @@ function Blogs() {
   }, []);
 
   const fetchBlogs = async () => {
-    const res = await API.get("/blogs");
-    setBlogs(res.data);
+    try {
+      const res = await API.get("/blogs");
+      console.log("API RESPONSE:", res.data);
+      setBlogs(res.data || []);
+    } catch (err) {
+      console.log(err);
+      setBlogs([]);
+    }
   };
 
-  // 🤖 Generate Blog using AI
+  // 🤖 Generate Blog
   const generateBlog = async () => {
-    console.log("TOPIC:", topic);
     try {
       const res = await API.post("/ai/generate", { topic });
       setContent(res.data.content);
@@ -30,13 +36,18 @@ function Blogs() {
 
   // ✅ Create Blog
   const createBlog = async () => {
-    await API.post("/blogs", { title, content });
-    setTitle("");
-    setContent("");
-    fetchBlogs();
+    try {
+      await API.post("/blogs", { title, content });
+      setTitle("");
+      setContent("");
+      fetchBlogs();
+    } catch (err) {
+      console.log(err.response?.data);
+      alert("Create failed ❌");
+    }
   };
 
-  // ✅ Delete Blog
+  // ✅ Delete
   const deleteBlog = async (id) => {
     try {
       await API.delete(`/blogs/${id}`);
@@ -46,14 +57,14 @@ function Blogs() {
     }
   };
 
-  // ✅ Start Editing
+  // ✅ Edit
   const startEdit = (blog) => {
     setEditingId(blog._id);
     setTitle(blog.title);
     setContent(blog.content);
   };
 
-  // ✅ Update Blog
+  // ✅ Update
   const updateBlog = async () => {
     try {
       await API.put(`/blogs/${editingId}`, { title, content });
@@ -67,60 +78,76 @@ function Blogs() {
   };
 
   return (
-    <div>
-      <h2>{editingId ? "Edit Blog" : "Create Blog"}</h2>
 
-      {/* 🤖 AI INPUT */}
+  <div className="container">
+<div className="header">
+  <h1 className="heading"> Blog Dashboard</h1>
+</div>
+    {/* AI Section */}
+    <div className="card">
+      <h3>Generate Blog with AI</h3>
       <input
+        className="input"
         placeholder="Enter topic (e.g. React, AI)"
         value={topic}
         onChange={(e) => setTopic(e.target.value)}
       />
-
-      <button onClick={generateBlog}>
-        Generate with AI ✨
+      <button className="btn ai" onClick={generateBlog}>
+        Generate ✨
       </button>
+    </div>
 
-      <br /><br />
+    {/* Create / Edit */}
+    <div className="card">
+      <h3>{editingId ? "Edit Blog" : "Create Blog"}</h3>
 
-      {/* 📝 BLOG INPUT */}
       <input
+        className="input"
         placeholder="Title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
-      <br />
 
       <textarea
-        placeholder="Content"
+        className="textarea"
+        placeholder="Write your blog..."
         value={content}
         onChange={(e) => setContent(e.target.value)}
       />
-      <br />
 
       {editingId ? (
-        <button onClick={updateBlog}>Update</button>
+        <button className="btn update" onClick={updateBlog}>
+          Update
+        </button>
       ) : (
-        <button onClick={createBlog}>Create</button>
+        <button className="btn create" onClick={createBlog}>
+          Create
+        </button>
       )}
+    </div>
 
-      <hr />
-
+    {/* Blog List */}
+    <div className="blogs">
       <h2>All Blogs</h2>
 
-      {blogs.map((b) => (
-        <div
-          key={b._id}
-          style={{ border: "1px solid black", margin: "10px", padding: "10px" }}
-        >
+      {blogs?.map((b) => (
+        <div className="blog-card" key={b._id}>
           <h3>{b.title}</h3>
           <p>{b.content}</p>
 
-          <button onClick={() => startEdit(b)}>Edit</button>
-          <button onClick={() => deleteBlog(b._id)}>Delete</button>
+          <div className="actions">
+            <button className="btn edit" onClick={() => startEdit(b)}>
+              Edit
+            </button>
+            <button className="btn delete" onClick={() => deleteBlog(b._id)}>
+              Delete
+            </button>
+          </div>
         </div>
       ))}
     </div>
+  </div>
+
   );
 }
 

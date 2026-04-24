@@ -72,6 +72,9 @@ router.put("/:id", auth, async (req, res) => {
 router.delete("/:id", auth, async (req, res) => {
   const blog = await Blogs.findById(req.params.id);
 
+console.log("BLOG USER:", blog.user.toString());
+console.log("LOGGED USER:", req.user.id);
+
   if (!blog) {
     return res.status(404).json({ message: "Blog not found" });
   }
