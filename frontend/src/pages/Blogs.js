@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import API from "../services/api";
 import "../style/blog.css";
+import { useNavigate } from "react-router-dom";
 
 function Blogs() {
   const [blogs, setBlogs] = useState([]);
@@ -8,10 +9,19 @@ function Blogs() {
   const [content, setContent] = useState("");
   const [editingId, setEditingId] = useState(null);
   const [topic, setTopic] = useState("");
+  const navigate = useNavigate();
 
-  useEffect(() => {
+useEffect(() => {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    navigate("/login");
+  } else {
     fetchBlogs();
-  }, []);
+  }
+}, [navigate]);
+
+
 
   const fetchBlogs = async () => {
     try {
@@ -34,18 +44,25 @@ function Blogs() {
     }
   };
 
-  // ✅ Create Blog
-  const createBlog = async () => {
-    try {
-      await API.post("/blogs", { title, content });
-      setTitle("");
-      setContent("");
-      fetchBlogs();
-    } catch (err) {
-      console.log(err.response?.data);
-      alert("Create failed ❌");
-    }
-  };
+ // ✅ Create Blog
+const createBlog = async () => {
+  // 🔥 validation
+  if (!title || !content) {
+    alert("Title and content required ⚠️");
+    return;
+  }
+
+  try {
+    await API.post("/blogs", { title, content });
+    setTitle("");
+    setContent("");
+    fetchBlogs();
+  } catch (err) {
+    console.log(err.response?.data);
+    alert("Create failed ❌");
+  }
+  
+};
 
   // ✅ Delete
   const deleteBlog = async (id) => {
@@ -77,12 +94,25 @@ function Blogs() {
     }
   };
 
-  return (
 
+ return (
   <div className="container">
-<div className="header">
-  <h1 className="heading"> Blog Dashboard</h1>
-</div>
+
+    {/* Header */}
+    <div className="header">
+      <h1 className="heading">Blog Dashboard</h1>
+
+      <button
+        className="btn delete"
+        onClick={() => {
+          localStorage.removeItem("token");
+          navigate("/login");
+        }}
+      >
+        Logout
+      </button>
+    </div>
+
     {/* AI Section */}
     <div className="card">
       <h3>Generate Blog with AI</h3>
@@ -120,7 +150,11 @@ function Blogs() {
           Update
         </button>
       ) : (
-        <button className="btn create" onClick={createBlog}>
+        <button
+          className="btn create"
+          onClick={createBlog}
+          disabled={!title || !content}
+        >
           Create
         </button>
       )}
@@ -146,9 +180,9 @@ function Blogs() {
         </div>
       ))}
     </div>
-  </div>
 
-  );
+  </div>
+);
 }
 
 export default Blogs;

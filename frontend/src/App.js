@@ -1,13 +1,17 @@
-import Login from "./pages/Login";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Blogs from "./pages/Blogs";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+
 function App() {
   return (
-    <div>
-<h1 className="text-5xl text-red-500">Test Tailwind</h1>  
-      <h1>My Blog App </h1>
-      <Login />
-      <Blogs />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Blogs />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </Router>
   );
 }
 

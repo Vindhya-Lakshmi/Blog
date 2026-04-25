@@ -2,27 +2,36 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../services/api";
 
-function Login() {
+function Register() {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
+  const handleRegister = async () => {
     try {
-      const res = await API.post("/auth/login", { email, password });
+      await API.post("/auth/register", {
+        username,
+        email,
+        password
+      });
 
-      localStorage.setItem("token", res.data.token);
-
-      alert("Login successful ✅");
-      navigate("/"); // go to blogs
+      alert("Registered successfully ✅");
+      navigate("/login");
     } catch (err) {
-      alert("Login failed ❌");
+      alert("Registration failed ❌");
     }
   };
 
   return (
     <div className="auth-container">
-      <h2>Login</h2>
+      <h2>Register</h2>
+
+      <input
+        placeholder="Username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+      />
 
       <input
         placeholder="Email"
@@ -37,13 +46,13 @@ function Login() {
         onChange={(e) => setPassword(e.target.value)}
       />
 
-      <button onClick={handleLogin}>Login</button>
+      <button onClick={handleRegister}>Register</button>
 
-      <p onClick={() => navigate("/register")}>
-        Don't have an account? Register
+      <p onClick={() => navigate("/login")}>
+        Already have an account? Login
       </p>
     </div>
   );
 }
 
-export default Login;
+export default Register;
