@@ -1,47 +1,59 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import API from "../services/api";
+import { useNavigate, Link } from "react-router-dom";
+import "../style/blog.css";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
+  const loginUser = async () => {
+    if (!email || !password) {
+      alert("All fields required ⚠️");
+      return;
+    }
+
     try {
       const res = await API.post("/auth/login", { email, password });
 
       localStorage.setItem("token", res.data.token);
-
-      alert("Login successful ✅");
-      navigate("/"); // go to blogs
+      navigate("/");
     } catch (err) {
-      alert("Login failed ❌");
+      alert(err.response?.data?.message || "Login failed ❌");
     }
   };
 
   return (
     <div className="auth-container">
-      <h2>Login</h2>
+      <div className="auth-card">
+        <h2 className="auth-title">Welcome Back 👋</h2>
+        <p className="auth-subtitle">Login to continue</p>
 
-      <input
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+        <input
+          className="auth-input"
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+        <input
+          className="auth-input"
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-      <button onClick={handleLogin}>Login</button>
+        <button className="auth-btn" onClick={loginUser}>
+          Login
+        </button>
 
-      <p onClick={() => navigate("/register")}>
-        Don't have an account? Register
-      </p>
+        <p className="auth-footer">
+          Don’t have an account? <Link to="/register">Register</Link>
+        </p>
+      </div>
     </div>
   );
 }
