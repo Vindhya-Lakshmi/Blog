@@ -19,8 +19,9 @@ function Register() {
       alert("Registered successfully ✅");
       navigate("/login");
     } catch (err) {
-      alert("Registration failed ❌");
-    }
+  console.log("ERROR:", err.response?.data);  // 👈 see real issue
+  alert(err.response?.data?.error || "Registration failed ❌");
+}
   };
 
   return (

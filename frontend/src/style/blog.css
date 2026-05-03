@@ -1,178 +1,117 @@
-/* 🌐 RESET + BASE */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  background: linear-gradient(135deg, #eef2ff, #f8fafc);
-  font-family: "Inter", "Segoe UI", sans-serif;
-  color: #1f2937;
-}
-
-/* 📦 CONTAINER */
-.container {
-  max-width: 950px;
-  margin: 40px auto;
-  padding: 20px;
-}
-
-/* 🔝 HEADER */
-.header {
+/* 🌈 Background */
+.login-container {
+  height: 100vh;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 30px;
+  background: linear-gradient(135deg, #4facfe, #b63cff);
 }
 
-/* 🌟 HEADING */
-.heading {
-  font-size: 34px;
-  font-weight: 700;
-  background: linear-gradient(90deg, #2563eb, #7c3aed);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* 📦 Card */
+.login-card {
+  width: 350px;
+  background: white;
+  padding: 35px 25px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  animation: fadeIn 0.6s ease;
 }
 
-/* 📦 CARD */
-.card {
-  background: #ffffff;
-  padding: 22px;
-  margin-bottom: 25px;
-  border-radius: 16px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
-  transition: 0.3s;
+/* 🔠 Title */
+.login-title {
+  font-size: 28px;
+  margin-bottom: 20px;
 }
 
-.card:hover {
-  transform: translateY(-4px);
-}
-
-/* 📝 INPUTS */
-.input, .textarea {
-  width: 100%;
-  padding: 12px 14px;
-  margin-top: 12px;
-  margin-bottom: 14px;
-  border-radius: 10px;
-  border: 1px solid #e5e7eb;
-  font-size: 14px;
-  transition: 0.25s;
-}
-
-.input:focus, .textarea:focus {
-  border-color: #6366f1;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
-  outline: none;
-}
-
-.textarea {
-  min-height: 130px;
-  resize: vertical;
-}
-
-/* 🔘 BUTTON BASE */
-.btn {
-  padding: 10px 18px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  font-weight: 500;
-  font-size: 14px;
-  transition: all 0.25s ease;
-}
-
-/* 🎨 BUTTON VARIANTS */
-.create {
-  background: #22c55e;
-  color: white;
-}
-
-.update {
-  background: #f59e0b;
-  color: white;
-}
-
-.delete {
-  background: #ef4444;
-  color: white;
-}
-
-.edit {
-  background: #3b82f6;
-  color: white;
-}
-
-.ai {
-  background: linear-gradient(135deg, #7c3aed, #6366f1);
-  color: white;
-}
-
-/* ✨ BUTTON EFFECT */
-.btn:hover {
-  transform: translateY(-2px) scale(1.03);
-  opacity: 0.95;
-}
-
-/* 🚫 DISABLED */
-.btn:disabled {
-  background: #cbd5e1;
-  cursor: not-allowed;
-}
-
-/* 📰 BLOG SECTION */
-.blogs h2 {
+/* 🧾 Inputs */
+.input-group {
+  text-align: left;
   margin-bottom: 15px;
-  font-size: 22px;
 }
 
-/* 📰 BLOG CARD */
-.blog-card {
-  background: #ffffff;
-  padding: 18px;
-  margin-bottom: 15px;
-  border-radius: 14px;
-  box-shadow: 0 5px 18px rgba(0,0,0,0.05);
-  transition: 0.3s;
-}
-
-.blog-card:hover {
-  transform: translateY(-3px);
-}
-
-/* 📰 TEXT */
-.blog-card h3 {
-  font-size: 18px;
-  margin-bottom: 6px;
-}
-
-.blog-card p {
-  color: #6b7280;
-  line-height: 1.6;
-}
-
-/* ⚡ ACTION BUTTONS */
-.actions {
-  margin-top: 12px;
-}
-
-/* 🔥 LOGOUT BUTTON SPECIAL */
-.header .delete {
-  padding: 8px 14px;
+.input-group label {
   font-size: 13px;
+  color: #555;
 }
 
-/* ✨ ANIMATIONS */
-.card,
-.blog-card {
-  animation: fadeUp 0.5s ease;
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  outline: none;
+  margin-top: 5px;
+  transition: 0.3s;
 }
 
-@keyframes fadeUp {
+.input-group input:focus {
+  border-bottom: 1px solid #6a11cb;
+}
+
+/* 🔗 Forgot */
+.forgot {
+  text-align: right;
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+/* 🔘 Button */
+.login-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 25px;
+  background: linear-gradient(90deg, #00c6ff, #b63cff);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.login-btn:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+/* 🔽 OR */
+.or {
+  margin: 20px 0 10px;
+  font-size: 13px;
+  color: #777;
+}
+
+/* 🔵 Social icons */
+.socials {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.circle {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Colors */
+.fb { background: #3b5998; }
+.tw { background: #1da1f2; }
+.gg { background: #db4437; }
+
+/* ✨ Animation */
+@keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(15px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
