@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../services/api";
+import "../style/register.css";
 
 function Register() {
   const [username, setUsername] = useState("");
@@ -19,39 +20,64 @@ function Register() {
       alert("Registered successfully ✅");
       navigate("/login");
     } catch (err) {
-  console.log("ERROR:", err.response?.data);  // 👈 see real issue
-  alert(err.response?.data?.error || "Registration failed ❌");
-}
+      console.log("ERROR:", err.response?.data);
+      alert(err.response?.data?.error || "Registration failed ❌");
+    }
   };
 
   return (
-    <div className="auth-container">
-      <h2>Register</h2>
+    <div className="register-container">
 
-      <input
-        placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
+      <div className="left-panel">
+        <h1>Get Started</h1>
 
-      <input
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+        <p>Already have an account?</p>
 
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+        <button
+          className="login-switch"
+          onClick={() => navigate("/login")}
+        >
+          Log in
+        </button>
+      </div>
 
-      <button onClick={handleRegister}>Register</button>
+      <div className="right-panel">
+        <p className="help">Need help?</p>
 
-      <p onClick={() => navigate("/login")}>
-        Already have an account? Login
-      </p>
+        <h2>Create account</h2>
+
+        <input
+          placeholder="Email"
+          value={email}
+          onChange={(e)=>setEmail(e.target.value)}
+        />
+
+        <input
+          placeholder="Full Name"
+          value={username}
+          onChange={(e)=>setUsername(e.target.value)}
+        />
+
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e)=>setPassword(e.target.value)}
+        />
+
+        <div className="terms">
+          <input type="checkbox"/>
+          <span>I accept the terms of the agreement</span>
+        </div>
+
+        <button
+          className="signup-btn"
+          onClick={handleRegister}
+        >
+          Sign up
+        </button>
+      </div>
+
     </div>
   );
 }
